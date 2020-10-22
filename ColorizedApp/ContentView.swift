@@ -47,13 +47,23 @@ struct SliderAndText: View {
             Slider(value: self.$value, in: 0...255, step: 1)
                 .accentColor(color)
                 .animation(.default)
-            TextField("", value: self.$value, formatter: NumberFormatter())
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .frame(width: 50)
-                .keyboardType(.default)
-                .alert(isPresented: $show, content:{ Alert(title: Text("124"), message: Text("435456")) } )
+            TextField("", value: self.$value, formatter: NumberFormatter()) { 
+                self.checkValue()
+            }
+            .textFieldStyle(RoundedBorderTextFieldStyle())
+            .frame(width: 50)
+            .keyboardType(.default)
+            .alert(isPresented: $show) {
+                Alert (title: Text("124"), message: Text("435456")) }
         }
     }
 }
 
-
+extension SliderAndText {
+    private func checkValue() {
+        if !(0...255).contains(value) {
+            show = true
+            value = 0
+        }
+    }
+}
